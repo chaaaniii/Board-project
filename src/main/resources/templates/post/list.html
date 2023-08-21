@@ -133,7 +133,7 @@
                         <tr>
                             <td><input type="checkbox" /></td>
                             <td>${row.noticeYn === false ? num-- : '공지'}</td>
-                            <td class="tl"><a href="/post/view.do?id=${row.id}">${row.title}</a></td>
+                            <td class="tl"><a href="javascript:void(0);" onclick="goViewPage(${row.id});">${row.title}</a></td>
                             <td>${row.writer}</td>
                             <td>${dayjs(row.createdDate).format('YYYY-MM-DD HH:mm')}</td>
                             <td>${row.viewCnt}</td>
@@ -213,6 +213,12 @@
                  *    (해당 함수가 리턴해주는 값을 브라우저 콘솔(console)에 찍어보시면 쉽게 이해하실 수 있습니다.)
                  */
                 location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
+            }
+
+            // 게시글 상세 페이지로 이동
+            function goViewPage(id) {
+                const queryString = (location.search) ? location.search + `&id=${id}` : `?id=${id}`;
+                location.href = '/post/view.do' + queryString;
             }
 
         /*]]>*/
