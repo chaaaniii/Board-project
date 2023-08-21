@@ -2,12 +2,11 @@ package com.study.domain.post;
 
 import com.study.common.dto.MessageDto;
 import com.study.common.dto.SearchDto;
+import com.study.common.paging.PagingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,11 +32,11 @@ public class PostController {
         return showMessageAndRedirect(message, model);
     }
 
-    // 게시글 리스트 페이지
+        // 게시글 리스트 페이지
     @GetMapping("/post/list.do")
     public String openPostList(@ModelAttribute("params") final SearchDto params, Model model) {
-        List<PostResponse> posts = postService.findAllPost(params);
-        model.addAttribute("posts", posts);
+        PagingResponse<PostResponse> response = postService.findAllPost(params);
+        model.addAttribute("response", response);
         return "post/list";
     }
 
