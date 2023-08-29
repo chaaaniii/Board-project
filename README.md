@@ -8,3 +8,4 @@
 <li>View : Thymeleaf</li>
 <li>Build Tool : Gradle</li>
 <li>IDE : IntelliJ</li>
+<li>Java version : 11</li>
