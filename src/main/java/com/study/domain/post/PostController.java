@@ -2,10 +2,11 @@ package com.study.domain.post;
 
 import com.study.common.dto.MessageDto;
 import com.study.common.dto.SearchDto;
-import com.study.domain.file.FileUtils;
 import com.study.common.paging.PagingResponse;
 import com.study.domain.file.FileRequest;
+import com.study.domain.file.FileResponse;
 import com.study.domain.file.FileService;
+import com.study.domain.file.FileUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,14 +62,6 @@ public class PostController {
         return "post/view";
     }
 
-    // 기존 게시글 수정
-    @PostMapping("/post/update.do")
-    public String updatePost(final PostRequest params, Model model) {
-        postService.updatePost(params);
-        MessageDto message = new MessageDto("게시글 수정이 완료되었습니다.", "/post/list.do", RequestMethod.GET, null);
-        return showMessageAndRedirect(message, model);
-    }
-
     // 게시글 삭제
     @PostMapping("/post/delete.do")
     public String deletePost(@RequestParam final Long id, final SearchDto queryParams, Model model) {
@@ -92,6 +85,32 @@ public class PostController {
     private String showMessageAndRedirect(final MessageDto params, Model model){
         model.addAttribute("params",params);
         return "common/messageRedirect";
+    }
+
+    // 기존 게시글 수정
+    @PostMapping("/post/update.do")
+    public String updatePost(final PostRequest params, final SearchDto queryParams, Model model) {
+
+        // 1. 게시글 정보 수정
+        postService.updatePost(params);
+
+        // 2. 파일 업로드 (to disk)
+        List<FileRequest> uploadFiles = fileUtils.uploadFiles(params.getFiles());
+
+        // 3. 파일 정보 저장 (to database)
+        fileService.saveFiles(params.getId(), uploadFiles);
+
+        // 4. 삭제할 파일 정보 조회 (from database)
+        List<FileResponse> deleteFiles = fileService.findAllFileByIds(params.getRemoveFileIds());
+
+        // 5. 파일 삭제 (from disk)
+        fileUtils.deleteFiles(deleteFiles);
+
+        // 6. 파일 삭제 (from database)
+        fileService.deleteAllFileByIds(params.getRemoveFileIds());
+
+        MessageDto message = new MessageDto("게시글 수정이 완료되었습니다.", "/post/list.do", RequestMethod.GET, queryParamsToMap(queryParams));
+        return showMessageAndRedirect(message, model);
     }
 
 }
