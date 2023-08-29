@@ -6,7 +6,7 @@ import com.study.common.paging.PagingResponse;
 import com.study.domain.file.FileRequest;
 import com.study.domain.file.FileResponse;
 import com.study.domain.file.FileService;
-import com.study.domain.file.FileUtils;
+import com.study.common.file.FileUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
