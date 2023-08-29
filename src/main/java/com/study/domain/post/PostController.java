@@ -2,7 +2,7 @@ package com.study.domain.post;
 
 import com.study.common.dto.MessageDto;
 import com.study.common.dto.SearchDto;
-import com.study.common.file.FileUtils;
+import com.study.domain.file.FileUtils;
 import com.study.common.paging.PagingResponse;
 import com.study.domain.file.FileRequest;
 import com.study.domain.file.FileService;

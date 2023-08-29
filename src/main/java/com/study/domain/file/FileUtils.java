@@ -1,4 +1,4 @@
-package com.study.common.file;
+package com.study.domain.file;
 
 import com.study.domain.file.FileRequest;
 import org.springframework.stereotype.Component;
