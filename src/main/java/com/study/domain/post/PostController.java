@@ -2,6 +2,7 @@ package com.study.domain.post;
 
 import com.study.common.dto.MessageDto;
 import com.study.common.dto.SearchDto;
+import com.study.common.file.FileUtils;
 import com.study.common.paging.PagingResponse;
 import com.study.domain.file.FileRequest;
 import com.study.domain.file.FileService;
@@ -20,7 +21,8 @@ public class PostController {
 
     private final PostService postService;
     private final FileService fileService;
-    private final com.study.common.file.FileUtils fileUtils;
+    private final FileUtils fileUtils;
+
 
     // 게시글 작성 페이지
     @GetMapping("/post/write.do")
